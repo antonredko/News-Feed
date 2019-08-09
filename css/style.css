@@ -46,6 +46,8 @@ body {
     display: none;
     height: 27%;
     bottom: 0;
+    animation: showItem 1s;
+    -webkit-animation: showItem 1s;
 }
 h1 {
     margin-bottom: 20px;
@@ -81,7 +83,19 @@ textarea[name="commentText"]::placeholder {
 }
 button {
     padding: 5px 10px;
-    border: none;
+    border: 1px solid #ffbf00;
     background: #ffbf00;
 }
+button:hover {
+    border: 1px solid #ffbf00;
+    background: #ffffff;
+}
 
+@keyframes showItem {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
