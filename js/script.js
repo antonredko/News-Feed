@@ -11,9 +11,7 @@ imageLink.addEventListener("input", showImage);
 document.getElementById("post").addEventListener("click", postNew);
 
 function showImage() {
-    image.style.maxWidth = "250px";
-    image.style.maxHeight = "165px";
-    image.style.animation = "showItem 1s";
+    image.classList.add("showImage");
     image.src = imageLink.value;
     document.getElementById("article").appendChild(image);
 }
@@ -35,7 +33,9 @@ function showDate() {
 }
 
 function postNew() {
+
     var div = document.createElement("div"),
+        deleteButton = document.createElement("button"),
         author = document.createElement("h2"),
         time = document.createElement("h4"),
         text = document.createElement("p"),
@@ -43,56 +43,69 @@ function postNew() {
         imgLink = document.getElementById("imageLink"),
         likeAndComment = document.createElement("div"),
         writeComment = document.createElement("button"),
-        likes = document.createElement("a"),
+        likes = document.createElement("button"),
         count = 0,
-        allComments = document.createElement("div");
+        showComments = document.createElement("button"),
+        allComments = document.createElement("div"),
+        arrayComments = [];
 
-    div.style.width = "95%"; div.style.background = "#e5e7e8"; div.style.padding = "15px"; div.style.animation = "showItem 1s";
+    div.classList.add("newsBlock");
 
-    author.style.color = "#15aaea";
+    deleteButton.innerHTML = "&#9746;";
+    deleteButton.classList.add("deletePost");
+
+    deleteButton.onclick = function() {
+        deleteButton.parentElement.classList.add("hide");
+    }
+
+    author.classList.add("author");
     author.innerText = authorName.value;
 
     time.innerText = showDate();
 
-    text.style.textAlign = "justify";
+    text.classList.add("textJustify");
     text.innerText = message.value;
 
-    img.style.maxWidth = "100%"; img.style.maxHeight = "300px";
+    img.classList.add("imagePost");
     img.src = imgLink.value;
 
-    likes.href = "#"; likes.style.color = "red"; likes.style.textDecoration = "none";
+    likes.classList.add("likes");
     likes.innerText = "Likes: 0";
     likes.onclick = function() {
         count += 1;
         likes.innerText = "Likes: " + count;
     }
 
+    showComments.classList.add("showComments");
+    showComments.innerText = "Show Comments " + "(" + arrayComments.length + ")";
+
     writeComment.innerText = "Write Comment";
 
-    likeAndComment.style.width = "100%"; likeAndComment.style.display = "flex"; likeAndComment.style.flexDirection = "row"; likeAndComment.style.justifyContent = "space-around";
+    likeAndComment.classList.add("likeAndComment");
     likeAndComment.appendChild(likes);
+    likeAndComment.appendChild(showComments);
     likeAndComment.appendChild(writeComment);
 
-    var addToNewsFeed = [author, time, document.createElement("br"), text, document.createElement("br"), img, document.createElement("br"), document.createElement("br"), likeAndComment, document.createElement("br")];
+    var addToNewsFeed = [deleteButton, author, time, document.createElement("br"), text, document.createElement("br"), img, document.createElement("br"), document.createElement("br"), likeAndComment, document.createElement("br")];
     addToNewsFeed.forEach(item => div.appendChild(item));
 
-    newsFeed.appendChild(div);
+    newsFeed.insertBefore(div, newsFeed.children[1]);
     newsFeed.appendChild(document.createElement("br"));
 
     authorName.value = ""; message.value = ""; image.src = ""; imgLink.value = "";
-
-    writeComment.onclick = function() {
+    
+    function addComment() {
         comment.style.display = "block";
-
         document.getElementById("sendComment").onclick = function() {
             var oneComment = document.createElement("div"),
                 commentAuthorAndTime = document.createElement("p"),
                 commentAuthorName = document.createElement("span"),
                 commentTextValue = document.createElement("p");
+                // answerButton = document.createElement("button");
     
-            oneComment.style.width = "95%"; oneComment.style.background = "#e5e7e8"; oneComment.style.padding = "15px"; oneComment.style.animation = "showItem 1s";
+            oneComment.classList.add("comment");
 
-            commentAuthorName.style.color = "#15aaea";
+            commentAuthorName.classList.add("author");
             commentAuthorName.innerText = commentAuthor.value;
 
             commentAuthorAndTime.appendChild(commentAuthorName);
@@ -100,16 +113,43 @@ function postNew() {
 
             commentTextValue.innerText = commentText.value;
 
-            oneComment.appendChild(commentAuthorAndTime);
-            oneComment.appendChild(document.createElement("br"));
-            oneComment.appendChild(commentTextValue);
+            // answerButton.style.marginBottom = "10px"; answerButton.innerText = "Answer";
 
-            allComments.style.borderTop = "1px solid black";
+            var addToComment = [document.createElement("br"), commentAuthorAndTime, document.createElement("br"), commentTextValue, document.createElement("br")];
+            addToComment.forEach(item => oneComment.appendChild(item));
+            // oneComment.appendChild(answerButton);
+            // oneComment.appendChild(document.createElement("br"));
+
+            arrayComments.push(oneComment);
+
+            showComments.innerText = "Show Comments " + "(" + arrayComments.length + ")";
+
+            allComments.classList.add("allComments");
     
             div.appendChild(allComments);
-            allComments.appendChild(oneComment);
+            allComments.innerHTML = oneComment.innerHTML;
             commentAuthor.value = ""; commentText.value = "";
             comment.style.display = "none";
+
+            function showAllComments() {
+                allComments.innerHTML = "";
+                arrayComments.forEach(item => allComments.prepend(item));
+                showComments.innerText = "Hide Comments " + "(" + arrayComments.length + ")";
+                showComments.removeEventListener("click", showAllComments);
+                showComments.addEventListener("click", hideAllComments);
+            }
+            function hideAllComments() {
+                allComments.innerHTML = arrayComments[arrayComments.length - 1].innerHTML;
+                showComments.innerText = "Show Comments " + "(" + arrayComments.length + ")";
+                showComments.removeEventListener("click", hideAllComments);
+                showComments.addEventListener("click", showAllComments);
+            }
+            showComments.addEventListener("click", showAllComments);
+
+            arrayComments.length < 2 ? showComments.removeEventListener("click", showAllComments) : showComments.addEventListener("click", showAllComments);
         }
+        // answerButton.addEventListener("click", addComment);
     }
+    
+    writeComment.addEventListener("click", addComment);
 }
