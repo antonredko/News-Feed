@@ -5,10 +5,22 @@ var comment = document.getElementById("comment"),
     imageLink = document.getElementById("imageLink"),
     newsFeed = document.getElementById("newsFeed"),
     authorName = document.getElementById("authorName"),
-    message = document.getElementById("text");
+    message = document.getElementById("text"),
+    post = document.getElementById("post"),
+    formConstructor = document.forms[0];
 
 imageLink.addEventListener("input", showImage);
-document.getElementById("post").addEventListener("click", postNew);
+post.addEventListener("click", postNew);
+formConstructor.addEventListener("input", validFormConstructor);
+
+function validFormConstructor() {
+    if (authorName.value.length < 1) { authorName.style.border = "1px solid red" };
+    if (authorName.value.length > 0) { authorName.style.border = "1px solid #e5e7e8" };
+    if (message.value.length < 1) { message.style.border = "1px solid red" };
+    if (message.value.length > 0) { message.style.border = "1px solid #e5e7e8" };
+    if (authorName.value.length > 0 && message.value.length > 0) { post.removeAttribute("disabled") };
+    if (authorName.value.length < 1 || message.value.length < 1) { post.setAttribute("disabled", "true") }; 
+}
 
 function showImage() {
     image.classList.add("showImage");
@@ -96,6 +108,12 @@ function postNew() {
     
     function addComment() {
         comment.style.display = "block";
+
+        // function validFormComment() {
+        //     console.log(1);
+        // }
+        // document.forms[1].addEventListener("change", validFormComment);
+
         document.getElementById("sendComment").onclick = function() {
             var oneComment = document.createElement("div"),
                 commentAuthorAndTime = document.createElement("p"),

@@ -15,15 +15,19 @@
         <div id="newsConstructor">
             <div id="article">
                 <h1>News Constructor</h1>
-                <input type="text" name="author" id="authorName" placeholder="Author">
-                <textarea name="text" id="text" cols="30" rows="10" placeholder="Text"></textarea>
+                <form>
+                    <input type="text" name="author" id="authorName" placeholder="Author">
+                    <textarea name="text" id="text" cols="30" rows="10" placeholder="Text"></textarea>
+                </form>
                 <input type="text" name="link" id="imageLink" placeholder="Image Link">
-                <button id="post">New Post</button>
+                <button id="post" disabled>New Post</button>
             </div>
             <div id="comment">
-                <input type="text" name="commentAuthor" id="commentAuthor" placeholder="Comment author">
-                <textarea name="commentText" id="commentText" cols="30" rows="8" placeholder="Comment text"></textarea>
-                <button id="sendComment">Send Comment</button>
+                <form>
+                    <input type="text" name="commentAuthor" id="commentAuthor" placeholder="Comment author">
+                    <textarea name="commentText" id="commentText" cols="30" rows="8" placeholder="Comment text"></textarea>
+                </form>
+                <button id="sendComment" disabled>Send Comment</button>
             </div>
         </div>
     </div>

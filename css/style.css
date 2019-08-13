@@ -54,7 +54,7 @@ h1 {
 }
 input, textarea {
     background: #e5e7e8;
-    border: none;
+    border: 1px solid #e5e7e8;
     padding: 10px 15px;
     margin-bottom: 10px;
 }
