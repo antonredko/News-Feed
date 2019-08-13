@@ -101,7 +101,6 @@ function postNew() {
                 commentAuthorAndTime = document.createElement("p"),
                 commentAuthorName = document.createElement("span"),
                 commentTextValue = document.createElement("p");
-                // answerButton = document.createElement("button");
     
             oneComment.classList.add("comment");
 
@@ -113,12 +112,8 @@ function postNew() {
 
             commentTextValue.innerText = commentText.value;
 
-            // answerButton.style.marginBottom = "10px"; answerButton.innerText = "Answer";
-
             var addToComment = [document.createElement("br"), commentAuthorAndTime, document.createElement("br"), commentTextValue, document.createElement("br")];
             addToComment.forEach(item => oneComment.appendChild(item));
-            // oneComment.appendChild(answerButton);
-            // oneComment.appendChild(document.createElement("br"));
 
             arrayComments.push(oneComment);
 
@@ -127,7 +122,10 @@ function postNew() {
             allComments.classList.add("allComments");
     
             div.appendChild(allComments);
-            allComments.innerHTML = oneComment.innerHTML;
+            // allComments.innerHTML = oneComment.outerHTML;
+
+            allComments.children.length < 2 ? (allComments.innerHTML = oneComment.outerHTML, showComments.addEventListener("click", showAllComments)) : (allComments.prepend(oneComment), showComments.removeEventListener("click", showAllComments), showComments.addEventListener("click", hideAllComments), showComments.innerText = "Hide Comments " + "(" + arrayComments.length + ")");
+
             commentAuthor.value = ""; commentText.value = "";
             comment.style.display = "none";
 
@@ -139,17 +137,13 @@ function postNew() {
                 showComments.addEventListener("click", hideAllComments);
             }
             function hideAllComments() {
-                allComments.innerHTML = arrayComments[arrayComments.length - 1].innerHTML;
+                allComments.innerHTML = arrayComments[arrayComments.length - 1].outerHTML;
                 showComments.innerText = "Show Comments " + "(" + arrayComments.length + ")";
                 showComments.removeEventListener("click", hideAllComments);
                 showComments.addEventListener("click", showAllComments);
             }
-            showComments.addEventListener("click", showAllComments);
-
-            arrayComments.length < 2 ? showComments.removeEventListener("click", showAllComments) : showComments.addEventListener("click", showAllComments);
+            // showComments.addEventListener("click", showAllComments);
         }
-        // answerButton.addEventListener("click", addComment);
     }
-    
     writeComment.addEventListener("click", addComment);
 }
