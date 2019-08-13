@@ -122,7 +122,6 @@ function postNew() {
             allComments.classList.add("allComments");
     
             div.appendChild(allComments);
-            // allComments.innerHTML = oneComment.outerHTML;
 
             allComments.children.length < 2 ? (allComments.innerHTML = oneComment.outerHTML, showComments.addEventListener("click", showAllComments)) : (allComments.prepend(oneComment), showComments.removeEventListener("click", showAllComments), showComments.addEventListener("click", hideAllComments), showComments.innerText = "Hide Comments " + "(" + arrayComments.length + ")");
 
@@ -142,7 +141,6 @@ function postNew() {
                 showComments.removeEventListener("click", hideAllComments);
                 showComments.addEventListener("click", showAllComments);
             }
-            // showComments.addEventListener("click", showAllComments);
         }
     }
     writeComment.addEventListener("click", addComment);
