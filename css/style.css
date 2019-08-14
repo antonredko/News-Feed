@@ -104,7 +104,7 @@ button:hover {
     margin-bottom: 15px;
     animation: showItem 1s;
 }
-.deletePost {
+.deletePost, .deleteComment {
     height: 21.52px;
     position: absolute;
     top: 15px;
@@ -113,7 +113,11 @@ button:hover {
     color: #999999;
     font-size: 24px;
 }
-.likes, .deletePost:hover {
+.deleteComment {
+    top: 10px;
+    right: 0;
+}
+.likes, .deletePost:hover, .deleteComment:hover {
     color: red;
 }
 .author {
@@ -123,7 +127,7 @@ button:hover {
     max-width: 100%;
     max-height: 300px;
 }
-.likes, .likes:hover, .showComments, .showComments:hover, .deletePost, .deletePost:hover {
+.likes, .likes:hover, .showComments, .showComments:hover, .deletePost, .deletePost:hover, .deleteComment, .deleteComment:hover {
     border: none;
     background: none;
 }
@@ -140,6 +144,7 @@ button:hover {
     animation: showItem 1s;
 }
 .allComments {
+    display: block;
     border-top: 1px solid black;
 }
 .textJustify, .comment {

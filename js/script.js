@@ -1,25 +1,25 @@
 var comment = document.getElementById("comment"),
     commentAuthor = document.getElementById("commentAuthor"),
     commentText = document.getElementById("commentText"),
+    sendComment = document.getElementById("sendComment"),
     image = document.createElement("img"),
     imageLink = document.getElementById("imageLink"),
     newsFeed = document.getElementById("newsFeed"),
     authorName = document.getElementById("authorName"),
     message = document.getElementById("text"),
     post = document.getElementById("post"),
-    formConstructor = document.forms[0];
+    formConstructor = document.forms[0],
+    formComment = document.forms[1];
 
 imageLink.addEventListener("input", showImage);
 post.addEventListener("click", postNew);
 formConstructor.addEventListener("input", validFormConstructor);
 
 function validFormConstructor() {
-    if (authorName.value.length < 1) { authorName.style.border = "1px solid red" };
-    if (authorName.value.length > 0) { authorName.style.border = "1px solid #e5e7e8" };
-    if (message.value.length < 1) { message.style.border = "1px solid red" };
-    if (message.value.length > 0) { message.style.border = "1px solid #e5e7e8" };
-    if (authorName.value.length > 0 && message.value.length > 0) { post.removeAttribute("disabled") };
-    if (authorName.value.length < 1 || message.value.length < 1) { post.setAttribute("disabled", "true") }; 
+    authorName.value.length > 0 ? authorName.style.border = "1px solid #e5e7e8" : authorName.style.border = "1px solid red";
+    message.value.length > 0 ? message.style.border = "1px solid #e5e7e8" : message.style.border = "1px solid red";
+    authorName.value.length > 0 && message.value.length > 0 ? post.removeAttribute("disabled") : post.setAttribute("disabled", "true");
+    authorName.value.length < 1 || message.value.length < 1 ? post.setAttribute("disabled", "true") : post.removeAttribute("disabled");
 }
 
 function showImage() {
@@ -105,22 +105,33 @@ function postNew() {
     newsFeed.appendChild(document.createElement("br"));
 
     authorName.value = ""; message.value = ""; image.src = ""; imgLink.value = "";
+
+    writeComment.addEventListener("click", addComment);
     
     function addComment() {
         comment.style.display = "block";
 
-        // function validFormComment() {
-        //     console.log(1);
-        // }
-        // document.forms[1].addEventListener("change", validFormComment);
+        formComment.addEventListener("input", validFormComment);
 
-        document.getElementById("sendComment").onclick = function() {
+        function validFormComment() {
+            commentAuthor.value.length > 0 ? commentAuthor.style.border = "1px solid #e5e7e8" : commentAuthor.style.border = "1px solid red";
+            commentText.value.length > 0 ? commentText.style.border = "1px solid #e5e7e8" : commentText.style.border = "1px solid red";
+            commentAuthor.value.length > 0 && commentText.value.length > 0 ? sendComment.removeAttribute("disabled") : sendComment.setAttribute("disabled", "true");
+            commentAuthor.value.length < 1 || commentText.value.length < 1 ? sendComment.setAttribute("disabled", "true") : sendComment.removeAttribute("disabled");
+        }
+
+        sendComment.onclick = function() {
             var oneComment = document.createElement("div"),
+                // deleteCommentButton = document.createElement("button"),
                 commentAuthorAndTime = document.createElement("p"),
                 commentAuthorName = document.createElement("span"),
                 commentTextValue = document.createElement("p");
     
             oneComment.classList.add("comment");
+            
+            // deleteCommentButton.innerHTML = "&#9746";
+            // deleteCommentButton.classList.add("deleteComment");
+            // deleteCommentButton.addEventListener("click", deleteComment);
 
             commentAuthorName.classList.add("author");
             commentAuthorName.innerText = commentAuthor.value;
@@ -141,10 +152,27 @@ function postNew() {
     
             div.appendChild(allComments);
 
-            allComments.children.length < 2 ? (allComments.innerHTML = oneComment.outerHTML, showComments.addEventListener("click", showAllComments)) : (allComments.prepend(oneComment), showComments.removeEventListener("click", showAllComments), showComments.addEventListener("click", hideAllComments), showComments.innerText = "Hide Comments " + "(" + arrayComments.length + ")");
+            arrayComments.length < 2 ? showComments.removeEventListener("click", showAllComments) : showComments.addEventListener("click", showAllComments);
+            allComments.children.length < 2 ? (allComments.innerHTML = oneComment.outerHTML) : (allComments.prepend(oneComment), showComments.removeEventListener("click", showAllComments), showComments.addEventListener("click", hideAllComments), showComments.innerText = "Hide Comments " + "(" + arrayComments.length + ")");
 
             commentAuthor.value = ""; commentText.value = "";
             comment.style.display = "none";
+            
+            // function deleteComment() {
+            //     for (i = 0; i < arrayComments.length; i += 1) {
+            //         if (arrayComments[i] === deleteCommentButton.parentNode) {
+            //             arrayComments.splice(arrayComments.indexOf(arrayComments[i]), 1);
+            //             showComments.innerText = "Hide Comments " + "(" + arrayComments.length + ")";
+                        
+            //             console.log(arrayComments);
+            //         }
+                    
+            //     }
+            //     deleteCommentButton.parentNode.classList.add("hide");
+            //     if (allComments.children.length < 1) {
+            //         allComments.classList.add("hide");
+            //     }
+            // }
 
             function showAllComments() {
                 allComments.innerHTML = "";
@@ -159,7 +187,8 @@ function postNew() {
                 showComments.removeEventListener("click", hideAllComments);
                 showComments.addEventListener("click", showAllComments);
             }
+            sendComment.setAttribute("disabled", "true");
         }
     }
-    writeComment.addEventListener("click", addComment);
+    post.setAttribute("disabled", "true"); 
 }
