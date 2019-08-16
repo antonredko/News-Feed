@@ -98,7 +98,7 @@ function postNew() {
     likeAndComment.appendChild(showComments);
     likeAndComment.appendChild(writeComment);
 
-    var addToNewsFeed = [deleteButton, author, time, document.createElement("br"), text, document.createElement("br"), img, document.createElement("br"), document.createElement("br"), likeAndComment, document.createElement("br")];
+    var addToNewsFeed = [deleteButton, author, time, document.createElement("br"), text, document.createElement("br"), img, document.createElement("br"), likeAndComment, document.createElement("br")];
     addToNewsFeed.forEach(item => div.appendChild(item));
 
     newsFeed.insertBefore(div, newsFeed.children[1]);
